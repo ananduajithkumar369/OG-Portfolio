@@ -1,0 +1,38 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h2>Contact Info</h2>
+    <a href="{% url 'dashboard:contact_add' %}" class="btn">+ Add / Edit Contact</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Location</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for contact in contacts %}
+        <tr>
+            <td>{{ contact.email }}</td>
+            <td>{{ contact.phone }}</td>
+            <td>{{ contact.location }}</td>
+            <td>
+                <a href="{% url 'dashboard:contact_edit' contact.id %}" class="btn">Edit</a>
+                <a href="{% url 'dashboard:contact_delete' contact.id %}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No contact info added yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

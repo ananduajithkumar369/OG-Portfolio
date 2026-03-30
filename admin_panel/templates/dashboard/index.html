@@ -1,0 +1,62 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}Dashboard Overview{% endblock %}
+
+{% block content %}
+
+<h1 style="margin-bottom: 20px;">Dashboard Overview</h1>
+
+<div class="stats" style="
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+">
+
+    <div class="card">
+        <strong>Home Section</strong><br>
+        {{ home|yesno:"Configured,Not Set" }}
+    </div>
+
+    <div class="card">
+        <strong>Academics</strong><br>
+        {{ academics_count }}
+    </div>
+
+    <div class="card">
+        <strong>Experience</strong><br>
+        {{ experience_count }}
+    </div>
+
+    <div class="card">
+        <strong>Projects</strong><br>
+        {{ projects_count }}
+    </div>
+
+    <div class="card">
+        <strong>Skills</strong><br>
+        {{ skills_count }}
+    </div>
+
+    <div class="card">
+        <strong>About Section</strong><br>
+        {{ about|yesno:"Configured,Not Set" }}
+    </div>
+
+    <div class="card">
+        <strong>Contact Section</strong><br>
+        {{ contact|yesno:"Configured,Not Set" }}
+    </div>
+
+</div>
+
+<style>
+.card {
+    background: white;
+    padding: 18px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    font-size: 15px;
+}
+</style>
+
+{% endblock %}

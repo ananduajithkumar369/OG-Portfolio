@@ -1,0 +1,40 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Academics{% endblock %}
+
+{% block content %}
+<h1>Academics</h1>
+
+<div class="cards-container">
+  {% for academic in academics %}
+  <div class="card">
+      <h3>{{ academic.degree }}</h3>
+      <p><strong>Institution:</strong> {{ academic.institution }}</p>
+      <p><strong>Year:</strong> {{ academic.year }}</p>
+      <p>{{ academic.description }}</p>
+      <div class="actions">
+          <a href="{% url 'dashboard:academics_edit' academic.id %}" class="btn btn-primary">Edit</a>
+          <a href="{% url 'dashboard:academics_delete' academic.id %}" class="btn btn-danger">Delete</a>
+      </div>
+  </div>
+  {% empty %}
+  <p>No academics added yet.</p>
+  {% endfor %}
+</div>
+
+<div class="pagination" style="margin-top: 20px; display:flex; gap:10px; align-items:center;">
+    {% if academics.has_previous %}
+        <a href="?page={{ academics.previous_page_number }}" class="btn btn-light">Previous</a>
+    {% endif %}
+
+    <span>Page {{ academics.number }} of {{ academics.paginator.num_pages }}</span>
+
+    {% if academics.has_next %}
+        <a href="?page={{ academics.next_page_number }}" class="btn btn-light">Next</a>
+    {% endif %}
+</div>
+
+
+<a href="{% url 'dashboard:academics_add' %}" class="btn btn-success">Add New Academic</a>
+{% endblock %}
+}
+

@@ -1,0 +1,34 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h2>About Section</h2>
+    <a href="{% url 'dashboard:about_add' %}" class="btn">+ Add / Edit About</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Content</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in about %}
+        <tr>
+            <td>{{ item.content|truncatechars:100 }}</td>
+            <td>
+                <a href="{% url 'dashboard:about_edit' item.id %}" class="btn">Edit</a>
+                <a href="{% url 'dashboard:about_delete' item.id %}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="2">No About info added yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

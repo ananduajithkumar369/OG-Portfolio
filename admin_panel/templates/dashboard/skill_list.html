@@ -1,0 +1,71 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Skills{% endblock %}
+
+{% block content %}
+<h1 style="margin-bottom: 20px;">Skills</h1>
+
+<div class="cards-container"
+     style="display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap:20px;">
+
+  {% for skill in skills %}
+  <div class="card"
+       style="background:white; padding:20px; border-radius:8px;
+              box-shadow:0 4px 6px rgba(0,0,0,0.05);">
+
+      <h3 style="margin-top:0; color:#111827;">
+          {{ skill.name }}
+      </h3>
+
+      {% if skill.description %}
+      <p style="color:#4b5563;">{{ skill.description }}</p>
+      {% endif %}
+
+      <div class="actions" style="margin-top:15px;">
+          <a href="{% url 'dashboard:skill_edit' skill.id %}"
+             class="btn btn-primary" style="margin-right:6px;">
+              Edit
+          </a>
+
+          <a href="{% url 'dashboard:skill_delete' skill.id %}"
+             class="btn btn-danger">
+              Delete
+          </a>
+      </div>
+  </div>
+  {% empty %}
+  <p>No skills added yet.</p>
+  {% endfor %}
+</div>
+
+{% if skills.paginator.num_pages > 1 %}
+<div class="pagination"
+     style="margin-top: 20px; display:flex; gap:10px; align-items:center;">
+
+    {% if skills.has_previous %}
+        <a href="?page={{ skills.previous_page_number }}"
+           class="btn btn-light">
+            Previous
+        </a>
+    {% endif %}
+
+    <span>
+        Page {{ skills.number }} of {{ skills.paginator.num_pages }}
+    </span>
+
+    {% if skills.has_next %}
+        <a href="?page={{ skills.next_page_number }}"
+           class="btn btn-light">
+            Next
+        </a>
+    {% endif %}
+</div>
+{% endif %}
+
+
+<div style="margin-top: 30px;">
+  <a href="{% url 'dashboard:skill_add' %}" class="btn btn-success">
+      Add New Skill
+  </a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,324 @@
+{% extends 'base.html' %}
+{% block title %}Home - Portfolio{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+<section id="home" class="hero section">
+    <div class="container hero-content">
+        <div class="hero-text">
+            <h1>{{ home.name }}</h1>
+            <div class="tagline">{{ home.tagline }}</div>
+            <p style="font-size: 1.1rem; margin-bottom: 30px; color: var(--secondary);">
+                {{ about.content|truncatewords:18 }}
+            </p>
+            <a href="#contact" class="btn">Get In Touch</a>
+            <a href="#projects" class="btn"
+                style="background: transparent; border:2px solid var(--primary); color:var(--primary); margin-left:15px;">
+                View My Work
+            </a>
+        </div>
+
+        <div class="hero-image">
+            {% if home.profile_image %}
+            <img src="{{ home.profile_image.url }}" class="profile-img">
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- ================= ACADEMICS ================= -->
+<section id="academics" class="section">
+    <div class="container">
+        <h2 class="section-title">Academics</h2>
+
+        <div class="timeline">
+            {% for academic in academics %}
+            <div class="timeline-item card experience-card">
+
+                <!-- Header (Same as Experience) -->
+                <div class="exp-header">
+                    <div>
+                        <h3>{{ academic.degree }}</h3>
+                        <p class="exp-company">{{ academic.institution }}</p>
+                    </div>
+
+                    <!-- Year aligned right -->
+                    <span class="exp-duration">
+                        {{ academic.year }}
+                    </span>
+                </div>
+
+                <!-- Description -->
+                {% if academic.description %}
+                <div class="scroll-desc experience-desc">
+                    {{ academic.description }}
+                </div>
+                {% endif %}
+
+                <!-- Academic Projects (No links) -->
+                {% if academic.projects.exists %}
+                <div class="sub-projects">
+                    <h4 class="sub-title">Projects</h4>
+                    <ul>
+                        {% for project in academic.projects.all %}
+                        <li class="project-item-mini">
+                            <strong>{{ project.title }}</strong>
+                            <div class="scroll-desc project-desc">
+                                {{ project.description }}
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ================= EXPERIENCE ================= -->
+<section id="experience" class="section" style="background:white;">
+    <div class="container">
+        <h2 class="section-title">Experience</h2>
+
+        <div class="timeline">
+            {% for exp in experiences %}
+            <div class="timeline-item card experience-card">
+
+                <!-- Header -->
+                <div class="exp-header">
+                    <div>
+                        <h3>{{ exp.role }}</h3>
+                        <p class="exp-company">{{ exp.company }}</p>
+                    </div>
+
+                    <span class="exp-duration">
+                        {{ exp.duration }}
+                    </span>
+                </div>
+
+                <!-- Description -->
+                <div class="scroll-desc experience-desc">
+                    {{ exp.description }}
+                </div>
+
+                {% if exp.projects.exists %}
+                <div class="sub-projects">
+                    <h4 class="sub-title">Projects</h4>
+                    <ul>
+                        {% for project in exp.projects.all %}
+                        <li class="project-item-mini">
+                            <strong>{{ project.title }}</strong>
+                            <div class="scroll-desc project-desc">
+                                {{ project.description }}
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section id="projects" class="section" style="background:#f8fafc;">
+    <div class="container">
+        <h2 class="section-title">Projects</h2>
+
+        <div class="project-list">
+            {% for project in projects %}
+            <div class="project-item card">
+
+                <h3 class="project-title">{{ project.title }}</h3>
+
+                <div class="scroll-desc project-desc">
+                    {{ project.description }}
+                </div>
+
+                {% if project.technologies %}
+                <div class="project-tech">
+                    {% for tech in project.technologies.all %}
+                        <span class="tech-pill">{{ tech.name }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if project.link %}
+                <a href="{{ project.link }}" target="_blank" class="btn btn-sm">
+                    View Project
+                </a>
+                {% endif %}
+
+            </div>
+            {% empty %}
+            <p style="text-align:center; color:var(--secondary);">
+                Projects will be added soon.
+            </p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ================= SKILLS ================= -->
+<section id="skills" class="section" style="background:white;">
+    <div class="container">
+        <h2 class="section-title">Skills</h2>
+
+        <div class="skills-pill-container">
+            {% for skill in skills %}
+            <div class="skill-pill">
+                {% with name=skill.name|lower %}
+                    {% if name == 'python' %}
+                        <i class="fab fa-python"></i>
+                    {% elif name == 'django' %}
+                        <i class="fas fa-leaf"></i>
+                    {% elif name == 'flask' %}
+                        <i class="fas fa-flask"></i>
+                    {% elif name == 'html' %}
+                        <i class="fab fa-html5"></i>
+                    {% elif name == 'css' %}
+                        <i class="fab fa-css3-alt"></i>
+                    {% elif name == 'javascript' %}
+                        <i class="fab fa-js"></i>
+                    {% elif name == 'bootstrap' %}
+                        <i class="fab fa-bootstrap"></i>
+                    {% elif name == 'git' %}
+                        <i class="fab fa-git-alt"></i>
+                    {% elif 'sql' in name or 'mysql' in name or 'postgres' in name or 'sqlite' in name or 'redis' in name %}
+                        <i class="fas fa-database"></i>
+                    {% elif 'celery' in name %}
+                        <i class="fas fa-carrot"></i>
+                    {% elif 'payment' in name %}
+                        <i class="fas fa-credit-card"></i>
+                    {% elif 'nlp' in name or 'spacy' in name %}
+                        <i class="fas fa-brain"></i>
+                    {% elif 'bert' in name %}
+                        <i class="fas fa-robot"></i>
+                    {% elif 'api' in name %}
+                        <i class="fas fa-plug"></i>
+                    {% elif 'orm' in name %}
+                        <i class="fas fa-cogs"></i>
+                    {% elif name == 'communication' %}
+                        <i class="fas fa-comments"></i>
+                    {% elif 'problem' in name %}
+                        <i class="fas fa-lightbulb"></i>
+                    {% elif 'adapt' in name %}
+                        <i class="fas fa-sync-alt"></i>
+                    {% elif 'attention' in name %}
+                        <i class="fas fa-search"></i>
+                    {% elif 'time' in name %}
+                        <i class="fas fa-clock"></i>
+                    {% else %}
+                        <i class="fas fa-code"></i>
+                    {% endif %}
+                {% endwith %}
+
+                <span>{{ skill.name }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section id="about" class="section" style="background:white;">
+    <div class="container">
+        <h2 class="section-title">About Me</h2>
+
+        {% if about %}
+        <div class="card" style="max-width: 1000px; margin: auto;">
+            
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h3>{{ home.name }}</h3>
+                <p style="color: var(--primary); font-weight: 600;">
+                    {{ home.tagline }}
+                </p>
+            </div>
+
+            <div style="line-height: 1.8; font-size: 1.05rem;">
+                {{ about.content|linebreaks }}
+            </div>
+        </div>
+        {% else %}
+        <p style="text-align:center; color:var(--secondary);">
+            About information will be added soon.
+        </p>
+        {% endif %}
+    </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="section" style="background:#f8fafc;">
+    <div class="container">
+        <h2 class="section-title">Get In Touch</h2>
+
+        <!-- ✅ SUCCESS MESSAGE GOES HERE -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="contact-grid">
+
+            <!-- Contact Info -->
+            <div class="contact-info">
+                <h3>Let’s Talk</h3>
+                <p>{{ contact.description }}</p>
+
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>{{ contact.email }}</span>
+                </div>
+
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>{{ contact.phone }}</span>
+                </div>
+
+                <div class="contact-item">
+                    <i class="fas fa-location-dot"></i>
+                    <span>{{ contact.location }}</span>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <form method="POST" action="" class="contact-form card">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Your Email" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="subject" placeholder="Subject (optional)">
+                </div>
+
+                <div class="form-group">
+                    <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+                </div>
+
+                <button type="submit" class="btn">
+                    Send Message
+                </button>
+            </form>
+
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
